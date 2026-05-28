@@ -1,0 +1,14 @@
+streamlit>=1.32.0
+anthropic
+pandas
+plotly
+requests
+numpy
+cryptography
+vanderSentiment
+python-docx
+PyPDF2
+Pillow
+openpyxl
+psutil
+lxml
