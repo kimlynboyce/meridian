@@ -11,9 +11,9 @@ from cryptography.fernet import Fernet
 # CONFIG & TIME
 # ══════════════════════════════════════════════════════════════════════════════
 st.set_page_config(page_title="VECTOR OS", page_icon="⚡", layout="wide", initial_sidebar_state="expanded")
-now = (datetime.now(timezone.utc) - timedelta(hours=4)).replace(tzinfo=None)
+now      = (datetime.now(timezone.utc) - timedelta(hours=4)).replace(tzinfo=None)
 DATA_DIR = "vos_data"; os.makedirs(DATA_DIR, exist_ok=True)
-DB_PATH = os.path.join(DATA_DIR, "crm.db")
+DB_PATH  = os.path.join(DATA_DIR, "crm.db")
 def fp(name): return os.path.join(DATA_DIR, name)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -27,22 +27,22 @@ st.markdown("""<style>
    Rugged · Precise · Expensive
 ══════════════════════════════════════════ */
 :root {
-    --gold: #c9a84c;
-    --gold-hi: #e8c96a;
-    --gold-lo: #8a6f2e;
-    --red: #b52a2a;
-    --green: #2d7a4f;
-    --steel: #5a6880;
-    --violet: #7c5cbf;
-    --bg: #0d0c10;
-    --bg2: #141218;
-    --bg3: #0a090d;
-    --border: #221f2a;
-    --border2: #2e2a3c;
-    --text: #e4ddd0;
-    --dim: #8a8294;
-    --dim2: #3a3545;
-    --ivory: #f0e8d8;
+    --gold:      #c9a84c;
+    --gold-hi:   #e8c96a;
+    --gold-lo:   #8a6f2e;
+    --red:       #b52a2a;
+    --green:     #2d7a4f;
+    --steel:     #5a6880;
+    --violet:    #7c5cbf;
+    --bg:        #0d0c10;
+    --bg2:       #141218;
+    --bg3:       #0a090d;
+    --border:    #221f2a;
+    --border2:   #2e2a3c;
+    --text:      #e4ddd0;
+    --dim:       #8a8294;
+    --dim2:      #3a3545;
+    --ivory:     #f0e8d8;
 }
 
 *,*::before,*::after { box-sizing:border-box; }
@@ -92,10 +92,13 @@ body::after {
     display:flex; justify-content:space-between; align-items:flex-end;
     padding:1.5rem 0 0;
     margin-bottom:0;
+    flex-wrap:wrap;
+    gap:0.5rem;
 }
 .vos-wordmark {
     font-family:'Syne',sans-serif;
-    font-size:2.8rem; font-weight:800;
+    font-size:clamp(1.6rem, 8vw, 2.8rem);
+    font-weight:800;
     background:linear-gradient(135deg,var(--ivory) 0%,var(--gold) 40%,var(--gold-hi) 60%,var(--ivory) 100%);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     letter-spacing:-2px; line-height:1;
@@ -103,16 +106,24 @@ body::after {
 }
 @keyframes wordmark-breathe {
     0%,100%{filter:drop-shadow(0 0 6px rgba(201,168,76,0.2));}
-    50% {filter:drop-shadow(0 0 28px rgba(201,168,76,0.55));}
+    50%    {filter:drop-shadow(0 0 28px rgba(201,168,76,0.55));}
 }
 .vos-sub {
-    font-family:'Space Mono',monospace; font-size:0.52rem;
-    color:var(--dim); letter-spacing:4px; margin-top:0.4rem;
+    font-family:'Space Mono',monospace;
+    font-size:clamp(0.4rem, 1.8vw, 0.52rem);
+    color:var(--dim); letter-spacing:3px; margin-top:0.4rem;
     text-transform:uppercase;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:100%;
 }
 .vos-time {
-    font-family:'Space Mono',monospace; font-size:0.6rem;
-    color:var(--dim); letter-spacing:2px; text-align:right; line-height:1.9;
+    font-family:'Space Mono',monospace;
+    font-size:clamp(0.5rem, 1.8vw, 0.6rem);
+    color:var(--dim); letter-spacing:2px;
+    text-align:right; line-height:1.9;
+    flex-shrink:0;
 }
 .vos-time strong { color:var(--gold); }
 
@@ -124,7 +135,7 @@ body::after {
 }
 @keyframes rule-pulse {
     0%,100%{opacity:0.3;}
-    50% {opacity:0.85; box-shadow:0 0 10px rgba(201,168,76,0.4);}
+    50%    {opacity:0.85; box-shadow:0 0 10px rgba(201,168,76,0.4);}
 }
 
 /* ── SIGNAL CARD ── */
@@ -218,10 +229,10 @@ body::after {
 }
 @keyframes count-in {
     from{opacity:0;transform:translateY(6px);}
-    to {opacity:1;transform:translateY(0);}
+    to  {opacity:1;transform:translateY(0);}
 }
 .stat-val.w{color:var(--ivory);} .stat-val.g{color:#4aad74;}
-.stat-val.r{color:var(--red);} .stat-val.b{color:#5b8fc9;}
+.stat-val.r{color:var(--red);}   .stat-val.b{color:#5b8fc9;}
 .stat-val.p{color:#a07ee0;}
 .stat-lbl {
     font-family:'Space Mono',monospace; font-size:0.54rem;
@@ -253,7 +264,7 @@ body::after {
     padding:0.55rem 0; border-bottom:1px solid var(--dim2); font-size:0.82rem;
 }
 .v-row-label { color:var(--dim); font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:1px; }
-.v-row-val { color:var(--text); font-family:'Space Mono',monospace; font-size:0.75rem; }
+.v-row-val   { color:var(--text); font-family:'Space Mono',monospace; font-size:0.75rem; }
 .v-row-val.a{color:var(--gold);} .v-row-val.g{color:#4aad74;} .v-row-val.r{color:var(--red);}
 
 /* ── PROGRESS ── */
@@ -265,7 +276,7 @@ body::after {
 }
 @keyframes bar-pulse {
     0%,100%{box-shadow:0 0 6px rgba(201,168,76,0.35);}
-    50% {box-shadow:0 0 18px rgba(201,168,76,0.65);}
+    50%    {box-shadow:0 0 18px rgba(201,168,76,0.65);}
 }
 .v-bar-fill.g{background:linear-gradient(90deg,#1d5c37,#2d7a4f,#4aad74);box-shadow:0 0 8px rgba(74,173,116,0.4);}
 .v-bar-fill.r{background:linear-gradient(90deg,#7a1515,var(--red),#e03535);box-shadow:0 0 8px rgba(181,42,42,0.4);}
@@ -309,13 +320,13 @@ body::after {
 .cb { background:#090810; border:1px solid var(--border2); padding:.8rem 1rem; font-family:'Space Mono',monospace; font-size:.78rem; color:var(--gold); white-space:pre-wrap; word-break:break-all; }
 .ib { background:#100e14; border:1px solid var(--border); padding:.9rem 1.1rem; font-size:.84rem; color:var(--dim); margin:.4rem 0; }
 .warn { background:rgba(181,42,42,0.08); border:1px solid rgba(181,42,42,0.25); padding:5px 10px; margin:2px 0; font-size:.82rem; color:var(--red); }
-.ok { background:rgba(45,122,79,0.08); border:1px solid rgba(45,122,79,0.25); padding:5px 10px; font-size:.82rem; color:#4aad74; }
+.ok   { background:rgba(45,122,79,0.08); border:1px solid rgba(45,122,79,0.25); padding:5px 10px; font-size:.82rem; color:#4aad74; }
 
 /* ── KPI ── */
 .kpi { background:var(--bg2); border:1px solid var(--border); padding:18px 22px; border-top:3px solid var(--c); }
 .kpi-label { color:var(--dim); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; font-family:'Space Mono',monospace; }
 .kpi-value { color:var(--gold); font-size:2rem; font-weight:700; line-height:1.2; font-family:'Space Mono',monospace; }
-.kpi-sub { color:var(--dim); font-size:11px; margin-top:2px; font-family:'Space Mono',monospace; }
+.kpi-sub   { color:var(--dim); font-size:11px; margin-top:2px; font-family:'Space Mono',monospace; }
 
 /* ── NEWS ── */
 .news-card { background:var(--bg2); border:1px solid var(--border); padding:0.9rem 1rem; margin-bottom:1px; }
@@ -405,7 +416,7 @@ def ai(prompt, system="", max_tokens=1500):
 
 def _fkey(pw): return base64.urlsafe_b64encode(hashlib.sha256(pw.encode()).digest())
 def enc(text, pw): return Fernet(_fkey(pw)).encrypt(text.encode()).decode()
-def dec(ct, pw): return Fernet(_fkey(pw)).decrypt(ct.encode()).decode()
+def dec(ct, pw):   return Fernet(_fkey(pw)).decrypt(ct.encode()).decode()
 
 def gen_pwd(n=24, sym=True):
     alpha = string.ascii_letters + string.digits + ("!@#$%^&*()-_=+[]{}|;:,.<>?" if sym else "")
@@ -422,10 +433,62 @@ def rand_mac():
     return ":".join(f"{x:02x}" for x in b)
 
 def get_weather(loc="Trinidad"):
+    # Open-Meteo — free, no API key, accurate coordinates for TT locations
+    coords = {
+        "Trinidad":              (10.6918,  -61.2225),
+        "Tobago":                (11.1840,  -60.7745),
+        "Port+of+Spain,Trinidad":(10.6520,  -61.5189),
+        "San+Fernando,Trinidad": (10.2796,  -61.4683),
+        "Chaguanas,Trinidad":    (10.5167,  -61.4000),
+        "Crown+Point,Tobago":    (11.1495,  -60.8396),
+        "Arima,Trinidad":        (10.6364,  -61.2831),
+    }
+    lat, lon = coords.get(loc, (10.6918, -61.2225))
     try:
-        r = requests.get(f"https://wttr.in/{loc}?format=j1", timeout=8, headers={"User-Agent":"Mozilla/5.0"})
-        if r.status_code == 200: return r.json()
-    except: pass
+        url = (
+            f"https://api.open-meteo.com/v1/forecast"
+            f"?latitude={lat}&longitude={lon}"
+            f"&current=temperature_2m,relative_humidity_2m,wind_speed_10m,"
+            f"weather_code,apparent_temperature,uv_index"
+            f"&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,"
+            f"sunrise,sunset,weather_code"
+            f"&timezone=America%2FPort_of_Spain"
+            f"&forecast_days=3"
+        )
+        r = requests.get(url, timeout=10)
+        if r.status_code == 200:
+            raw = r.json()
+            wc = raw["current"]["weather_code"]
+            wc_desc = {
+                0:"Clear Sky",1:"Mainly Clear",2:"Partly Cloudy",3:"Overcast",
+                45:"Foggy",48:"Icy Fog",51:"Light Drizzle",53:"Drizzle",55:"Heavy Drizzle",
+                61:"Light Rain",63:"Rain",65:"Heavy Rain",71:"Light Snow",73:"Snow",
+                80:"Rain Showers",81:"Heavy Showers",82:"Violent Showers",
+                95:"Thunderstorm",96:"Thunderstorm & Hail",99:"Heavy Thunderstorm"
+            }.get(wc, "Variable")
+            # Format to match existing usage
+            return {
+                "current_condition": [{
+                    "temp_C":       str(round(raw["current"]["temperature_2m"])),
+                    "FeelsLikeC":   str(round(raw["current"]["apparent_temperature"])),
+                    "humidity":     str(raw["current"]["relative_humidity_2m"]),
+                    "windspeedKmph":str(round(raw["current"]["wind_speed_10m"])),
+                    "uvIndex":      str(round(raw["current"].get("uv_index", 0))),
+                    "weatherDesc":  [{"value": wc_desc}],
+                }],
+                "weather": [
+                    {
+                        "date":        raw["daily"]["time"][i],
+                        "maxtempC":    str(round(raw["daily"]["temperature_2m_max"][i])),
+                        "mintempC":    str(round(raw["daily"]["temperature_2m_min"][i])),
+                        "astronomy":   [{"sunrise": raw["daily"]["sunrise"][i][11:], "sunset": raw["daily"]["sunset"][i][11:]}],
+                        "hourly":      [{"precipMM": str(round(raw["daily"]["precipitation_sum"][i], 1))}],
+                    }
+                    for i in range(min(3, len(raw["daily"]["time"])))
+                ]
+            }
+    except Exception as e:
+        pass
     return None
 
 def get_news(url, count=6):
@@ -435,8 +498,8 @@ def get_news(url, count=6):
         for item in root.findall('.//item')[:count]:
             t = item.find('title'); l = item.find('link'); p = item.find('pubDate')
             items.append({"title": t.text if t is not None else "No title",
-                          "link": l.text if l is not None else "#",
-                          "pub": p.text[:22] if p is not None else ""})
+                          "link":  l.text if l is not None else "#",
+                          "pub":   p.text[:22] if p is not None else ""})
         return items
     except: return []
 
@@ -572,7 +635,7 @@ BOT_CONV = {
     "thanks":["You're welcome! Anything else?"],
 }
 CATEGORIES = ["Produce","Grocery/Dry Goods","Meat & Fish","Dairy","Beverages","Household","Other"]
-BILL_TYPES = ["TNTEC (Electricity)","WASA (Water)","Internet","Mobile Phone","Cable TV","Rent / Mortgage","Gas","Insurance","Other"]
+BILL_TYPES  = ["TNTEC (Electricity)","WASA (Water)","Internet","Mobile Phone","Cable TV","Rent / Mortgage","Gas","Insurance","Other"]
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TRANSPARENCY ENGINE DATA
@@ -624,9 +687,9 @@ def decode_input(text):
             raw = re.sub(re.escape(phrase),"",raw,flags=re.IGNORECASE)
             masks.append((phrase, label))
     raw = re.sub(r"\s{2,}"," ",raw).strip().lstrip(",. ")
-    words = re.findall(r"\b\w+\b", raw.lower())
+    words   = re.findall(r"\b\w+\b", raw.lower())
     actions = list(dict.fromkeys(w for w in words if w in ACTION_TOKENS))
-    lower = text.lower()
+    lower   = text.lower()
     urgency = "LOW"
     if any(s in lower for s in URGENCY_H): urgency = "HIGH"
     elif any(s in lower for s in URGENCY_M): urgency = "MEDIUM"
@@ -765,7 +828,7 @@ def generate_signal():
     goals_data = st.session_state.goals
     decisions_data = st.session_state.decisions
     thoughts_data = st.session_state.thoughts
-    tt_nd = st.session_state.tt_conv["namdevco"]
+    tt_nd   = st.session_state.tt_conv["namdevco"]
     tt_massy= st.session_state.tt_conv["massy"]
 
     # Market anomalies
@@ -888,7 +951,7 @@ signal = st.session_state.daily_signal
 # ══════════════════════════════════════════════════════════════════════════════
 hour = now.hour
 greet = "Good Morning" if hour<12 else ("Good Afternoon" if hour<17 else "Good Evening")
-dmsg = {"Monday":"New week. Move first.","Tuesday":"Build on yesterday.","Wednesday":"Halfway. Don't slow down.",
+dmsg  = {"Monday":"New week. Move first.","Tuesday":"Build on yesterday.","Wednesday":"Halfway. Don't slow down.",
           "Thursday":"Push through the wall.","Friday":"Finish what you started.",
           "Saturday":"Rest is productive too.","Sunday":"Recharge. Plan. Return."}.get(now.strftime("%A"),"Stay sovereign.")
 
@@ -908,7 +971,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── SIGNAL OF THE DAY ──
-sig_link_open = f'<a href="{signal.get("link","#")}" target="_blank" style="text-decoration:none;">' if signal.get("link") else ""
+sig_link_open  = f'<a href="{signal.get("link","#")}" target="_blank" style="text-decoration:none;">' if signal.get("link") else ""
 sig_link_close = "</a>" if signal.get("link") else ""
 st.markdown(f"""
 {sig_link_open}
@@ -1566,7 +1629,7 @@ elif section == "⚡ Agentic AI Platform":
                 cron=cron_map.get(t_freq,"0 9 * * *")
                 if "Linux" in t_os: sc=f"# crontab -e\n{cron} {t_cmd} >> /var/log/{t_name}.log 2>&1"
                 elif "Windows" in t_os: sc=f'$A=New-ScheduledTaskAction -Execute "powershell" -Argument "{t_cmd}"\n$T=New-ScheduledTaskTrigger -Daily -At 9am\nRegister-ScheduledTask -TaskName "{t_name}" -Action $A -Trigger $T -Force'
-                else: sc=f"import schedule, subprocess, time\ndef task():\n subprocess.run('{t_cmd}',shell=True)\nschedule.every().day.at('09:00').do(task)\nwhile True:\n schedule.run_pending()\n time.sleep(60)"
+                else: sc=f"import schedule, subprocess, time\ndef task():\n    subprocess.run('{t_cmd}',shell=True)\nschedule.every().day.at('09:00').do(task)\nwhile True:\n    schedule.run_pending()\n    time.sleep(60)"
                 st.markdown(f'<div class="cb">{sc}</div>',unsafe_allow_html=True)
                 st.download_button("Download",sc,file_name=f"{t_name}_schedule.txt",key="dl_sched")
 
