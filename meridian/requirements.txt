@@ -5,7 +5,7 @@ plotly
 requests
 numpy
 cryptography
-vanderSentiment
+vaderSentiment
 python-docx
 PyPDF2
 Pillow
